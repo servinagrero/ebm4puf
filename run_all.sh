@@ -1,18 +1,17 @@
 #!/usr/bin/env bash
 
-ARTIFACT=./data/puf_artifact.h5
-DATA_STUDY_DIR=./data/${STUDY_NAME}
-FIGURE_STUDY_DIR=./figures/${STUDY_NAME}
-RBM_STUDY_NAME=rbm
-RBM_DATA_STUDY_DIR=./data/${RBM_STUDY_NAME}
-RBM_FIGURE_STUDY_DIR=./figures/${RBM_STUDY_NAME}
+set -euo pipefail
 
-# uv run python scripts/run_artifact_rbm_studies.py \
-#     --artifact "${ARTIFACT}" \
-#     --study-name "${RBM_STUDY_NAME}" \
-#     --output-dir "${RBM_DATA_STUDY_DIR}"
+uv run python scripts/analysis_error_structure.py
+uv run python scripts/plot_error_structure.py
 
-# uv run python scripts/plot_rbm_studies.py \
-#     --study-name "${RBM_STUDY_NAME}" \
-#     --study-dir "${RBM_DATA_STUDY_DIR}" \
-#     --figures-dir "${RBM_FIGURE_STUDY_DIR}"
+# uv run python scripts/analysis_free_energy.py \
+#   --families SRAM_XMC4500 RO_Spartan7_roomT RO_Maiti_Spartan3E \
+#   --devices-per-family 20 \
+#   --group-sizes 1 2 4 6 8 10 12 16 20 \
+#   --training-configs cd:1 cd:5 cd:10 pcd:1 \
+#   --visible-bias-init marginal \
+#   --gibbs-steps 1 10 50 100 \
+#   --relaxation-steps 1 5 10 \
+#   --target-aucs 0.8 0.9 0.95 0.99
+# uv run python scripts/plot_free_energy.py
